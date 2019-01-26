@@ -18,9 +18,17 @@ class APIClient {
         })
     }
 
+    static getAPIAddress(){
+        let result = localStorage.getItem('apiAddress')
+        if (result === null)
+            return SETTINGS.apiAddress
+        else
+            return result
+    }
+
     constructor() {
         this.client = axios.create({
-            baseURL: SETTINGS.apiAddress,
+            baseURL: APIClient.getAPIAddress(),
         })
         // this.client.defaults.headers.common['Content-Type'] = 'application/json'
         // this.cookies = new Cookies()

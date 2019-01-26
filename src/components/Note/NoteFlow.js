@@ -58,9 +58,6 @@ class NoteFlow extends Component {
         return (
             <Grid container justify="center">
                 <Grid item xs={11} sm={8} md={5}>
-
-                </Grid>
-                <Grid item xs={11} sm={8} md={5}>
                     <Grid container direction="column" spacing={16}>
                         {flow}
                     </Grid>
