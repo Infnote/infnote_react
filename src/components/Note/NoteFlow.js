@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
-import { NoteCard } from '.'
+import { NoteCard, PostForm } from '.'
 import { NoteModel, Store } from 'models'
 
 class NoteFlow extends Component {
@@ -12,7 +12,6 @@ class NoteFlow extends Component {
     update = (page, clear) => {
         NoteModel.fetch(page)
             .then(notes => {
-                console.log(page)
                 this.setState({
                     notes: clear ? notes : [...this.state.notes, ...notes],
                     page: page
@@ -35,8 +34,9 @@ class NoteFlow extends Component {
 
     componentWillMount() {
         this.unsubscribe = Store.subscribe(() => {
-            const save = Store.getState().saveSettingEvent
+            const save = Store.getState().refresh
             if (save) {
+                this.setState({ notes: []})
                 this.update(1, true)
             }
         })
@@ -58,6 +58,7 @@ class NoteFlow extends Component {
         return (
             <Grid container justify="center">
                 <Grid item xs={11} sm={8} md={5}>
+                    <PostForm/>
                     <Grid container direction="column" spacing={16}>
                         {flow}
                     </Grid>

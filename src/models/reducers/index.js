@@ -1,4 +1,4 @@
 import { combineReducers } from 'redux'
-import saveSettingEvent from './saveSettingEvent'
+import refresh from './Refresh'
 
-export default combineReducers({saveSettingEvent})
+export default combineReducers({refresh})

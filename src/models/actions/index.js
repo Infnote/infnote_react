@@ -1,4 +1,3 @@
-export const saveSettingEvent = url => ({
-    type: 'SaveSetting',
-    url
+export const refresh = () => ({
+    type: 'refresh'
 })
