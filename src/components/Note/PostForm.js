@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FixedSpace } from 'components/Utils'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, Card, CardContent } from '@material-ui/core'
 import { PostModel, Store } from 'models'
 import { refresh } from 'models/actions'
 
@@ -33,7 +33,7 @@ class PostForm extends Component {
             const refresh = Store.getState().refresh
             if (refresh) {
                 this.setState({ display: PostModel.isAllowed()})
-                console.log('refresh')
+
             }
         })
     }
@@ -46,42 +46,43 @@ class PostForm extends Component {
     render() {
         // const { classes } = this.props;
         const { content, title, display } = this.state
-        console.log(display)
+
         if (display === false) 
             return (<div></div>)
         return (
-            <div>
-                <TextField
-                    id="outlined-multiline-flexible"
-                    label="Title"
-                    rowsMax="4"
-                    fullWidth={true}
-                    value={title}
-                    onChange={this.handleChange('title')}
-                    //className={classes.textField}
-                    margin="normal"
-                    // helperText="hello"
-                    variant="outlined"
-                />
-                <TextField
-                    id="outlined-multiline-flexible"
-                    label="Post"
-                    multiline
-                    rowsMax="4"
-                    fullWidth={true}
-                    value={content}
-                    onChange={this.handleChange('content')}
-                    //className={classes.textField}
-                    margin="normal"
-                    // helperText="hello"
-                    variant="outlined"
-                />
-                <FixedSpace size="xs2" />
-                <Button variant="contained" onClick={this.post}>
-                    Post
-                </Button>
-                <FixedSpace size="xs2" />
-            </div>
+            <Card>
+                <CardContent>
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        label="Title"
+                        rowsMax="4"
+                        fullWidth={true}
+                        value={title}
+                        onChange={this.handleChange('title')}
+                        //className={classes.textField}
+                        margin="normal"
+                        // helperText="hello"
+                    />
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        label="Post"
+                        multiline
+                        rows="4"
+                        fullWidth
+                        value={content}
+                        onChange={this.handleChange('content')}
+                        //className={classes.textField}
+                        margin="normal"
+                        // helperText="hello"
+                        variant="outlined"
+                    />
+                    <FixedSpace size="xs2" />
+                    <Button variant="contained" onClick={this.post} fullWidth>
+                        Post
+                    </Button>
+                    <FixedSpace size="xs2" />
+                </CardContent>
+            </Card>
         )
     }
 }

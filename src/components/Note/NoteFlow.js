@@ -17,7 +17,11 @@ class NoteFlow extends Component {
                     page: page
                 })
             })
-        // TODO: add error catch, remove listener when the last page have been loaded.
+            .catch(error => {
+                if (error.response.status !== 404) {
+                    console.log(error.repsonse.data)
+                }
+            })
     }
 
     bottomEvent = () => {
@@ -58,8 +62,10 @@ class NoteFlow extends Component {
         return (
             <Grid container justify="center">
                 <Grid item xs={11} sm={8} md={5}>
-                    <PostForm/>
                     <Grid container direction="column" spacing={16}>
+                        <Grid item>
+                            <PostForm/>
+                        </Grid>
                         {flow}
                     </Grid>
                 </Grid>

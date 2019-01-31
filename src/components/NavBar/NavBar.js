@@ -153,17 +153,14 @@ class NavBar extends Component {
                 <Dialog open={signUpDialog} onClose={this.handleCloseSignUp} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send
-                            updates occasionally.
-                        </DialogContentText>
                         <TextField
                             margin="dense"
                             id="nickname"
-                            label="Nick Name"
+                            label="Nickname"
                             fullWidth
                             value={nickname}
                             onChange={this.handleChange('nickname')}
+                            variant="outlined"
                         />
                         <TextField
                             margin="dense"
@@ -173,6 +170,7 @@ class NavBar extends Component {
                             fullWidth
                             value={email}
                             onChange={this.handleChange('email')}
+                            variant="outlined"
                         />
                     </DialogContent>
                     <DialogActions>
@@ -229,7 +227,7 @@ class NavBar extends Component {
                             onChange={this.handleChange('wif')}
                         />
                         <FixedSpace size="xs2" />
-                        <Button variant="contained" className={classes.button} onClick={this.drawerSave}>
+                        <Button variant="contained" className={classes.button} onClick={this.drawerSave} fullWidth>
                             Save
                         </Button>
                     </div>
