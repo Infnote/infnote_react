@@ -1,5 +1,5 @@
 const SETTINGS = {
-    apiAddress: 'http://10.89.58.116:8000',
+    apiAddress: 'http://api.infnote.com',
     chainAddress: 'http://api.infnote.com'
 }
 
