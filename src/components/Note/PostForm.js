@@ -11,9 +11,11 @@ const remainLimit = {
 
 const styles = {
     remainText: {
+        textAlign: 'right',
         color: 'gray',
     },
     remainHighlight: {
+        textAlign: 'right',
         color: 'red'
     }
 }
