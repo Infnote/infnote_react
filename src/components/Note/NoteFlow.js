@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core'
 import { NoteCard, PostForm } from '.'
 import { NoteModel, Store } from 'models'
 
 class NoteFlow extends Component {
     state = {
         notes: [],
-        page: 1
+        page: 1,
+        alert: false,
+        alertContent: ''
     }
 
     update = (page, clear) => {
@@ -18,7 +20,11 @@ class NoteFlow extends Component {
                 })
             })
             .catch(error => {
-                console.log(error)
+                if (!error.response) {
+                    this.setState({alert: true, alertContent: '连接失败，服务器已停止运行或 API 服务器地址错误'})
+                } else if (error.response.status !== 404) {
+                    this.setState({alert: true, alertContent: error.message})
+                }
             })
     }
 
@@ -27,6 +33,10 @@ class NoteFlow extends Component {
         if (el.getBoundingClientRect().bottom <= window.innerHeight) {
             this.update(this.state.page + 1)
         }
+    }
+
+    handleAlertClose = () => {
+        this.setState({alert: false})
     }
 
     componentDidMount() {
@@ -51,23 +61,38 @@ class NoteFlow extends Component {
     }
 
     render() {
-        const { notes } = this.state
+        const { notes, alert, alertContent } = this.state
         const flow = notes.map((note, index) => (
             <Grid item key={index} id={index}>
                 <NoteCard object={note} />
             </Grid>
         ))
         return (
-            <Grid container justify="center">
-                <Grid item xs={11} sm={8} md={5}>
-                    <Grid container direction="column" spacing={16}>
-                        <Grid item>
-                            <PostForm/>
+            <div>
+                <Grid container justify="center">
+                    <Grid item xs={11} sm={8} md={5}>
+                        <Grid container direction="column" spacing={16}>
+                            <Grid item>
+                                <PostForm/>
+                            </Grid>
+                            {flow}
                         </Grid>
-                        {flow}
                     </Grid>
                 </Grid>
-            </Grid>
+                <Dialog open={alert} onClose={this.handleAlertClose} aria-labelledby="form-dialog-title" fullWidth>
+                    <DialogTitle id="form-dialog-title">加载错误</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {alertContent}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleAlertClose} color="primary">
+                            确定
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         )
     }
 }

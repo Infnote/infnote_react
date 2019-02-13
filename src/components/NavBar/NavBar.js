@@ -27,6 +27,9 @@ const styles = theme => ({
     },
     dialogText: {
         overflowWrap: 'break-word',
+    },
+    error: {
+        color: 'red'
     }
 })
 
@@ -44,6 +47,9 @@ class NavBar extends Component {
         nickname: '',
         email: '',
         anchorEl: null,
+        alert: false,
+        alertContent: '',
+        signUpErrors: {}
     }
 
     handleOpenLogin = () => {
@@ -65,12 +71,12 @@ class NavBar extends Component {
                     APIClient.changeURL(this.state.apiAddress)
                     Store.dispatch(refresh())
                 }).catch(err => {
-                    console.log(err)
+                    this.setState({alert: true, alertContent: err.message})
                     this.logout()
                 })
             }
             catch(err) {
-                console.log(err)
+                this.setState({alert: true, alertContent: err.message})
                 this.logout()
             }
         }
@@ -85,16 +91,22 @@ class NavBar extends Component {
     }
 
     handleSubmitSignUp = () => {
-        this.setState({ signUpDialog: false })
         UserModel.signUp(this.state.nickname, this.state.email).then(wif => {
-            this.setState({ logged: true })
-            this.setState({ nickname: UserModel.currentUser['nickname'] })
-            this.setState({ email: UserModel.currentUser['email'] })
-            this.setState({ wif: wif })
+            this.setState({
+                logged: true, 
+                nickname: UserModel.currentUser['nickname'], 
+                email: UserModel.currentUser['email'], 
+                wif: wif, 
+                signUpDialog: false 
+            })
             Storage.setValue('wif', wif)
             Store.dispatch(refresh())
         }).catch(err => {
-            console.log(err)
+            if (err.response && err.response.status === 400) {
+                this.setState({signUpErrors: err.response.data})
+            } else {
+                this.setState({alert: true, alertContent: '连接失败，服务器已停止运行或 API 服务器地址错误'})
+            }
         })
     }
 
@@ -128,6 +140,10 @@ class NavBar extends Component {
 
     handleCloseKeyDialog = () => {
         this.setState({ keyDialog: false })
+    }
+
+    handleAlertClose = () => {
+        this.setState({ alert: false })
     }
 
     toggleDrawer = open => () => {
@@ -169,7 +185,7 @@ class NavBar extends Component {
 
     render() {
         const { classes } = this.props
-        const { anchorEl, apiAddress, chainAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog } = this.state
+        const { anchorEl, apiAddress, chainAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors } = this.state
         return (
             <div>
                 <AppBar position="fixed" color="inherit">
@@ -216,7 +232,7 @@ class NavBar extends Component {
                 </Menu>
 
                 <Dialog fullWidth open={loginDialog} onClose={this.handleCloseLogin} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
+                    <DialogTitle id="form-dialog-title">登入</DialogTitle>
                     <DialogContent>
                         <TextField 
                             margin="dense"
@@ -239,8 +255,8 @@ class NavBar extends Component {
                     </DialogActions>
                 </Dialog>
             
-                <Dialog open={signUpDialog} onClose={this.handleCloseSignUp} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
+                <Dialog open={signUpDialog} onClose={this.handleCloseSignUp} aria-labelledby="form-dialog-title" fullWidth>
+                    <DialogTitle id="form-dialog-title">注册</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"
@@ -251,6 +267,15 @@ class NavBar extends Component {
                             onChange={this.handleChange('nickname')}
                             variant="outlined"
                         />
+                        {(() => {
+                            if (signUpErrors.nickname) {
+                                return (
+                                    <Typography className={classes.error}>
+                                        {signUpErrors.nickname}
+                                    </Typography>
+                                )
+                            }
+                        })()}
                         <TextField
                             margin="dense"
                             id="email"
@@ -261,6 +286,15 @@ class NavBar extends Component {
                             onChange={this.handleChange('email')}
                             variant="outlined"
                         />
+                        {(() => {
+                            if (signUpErrors.email) {
+                                return (
+                                    <Typography className={classes.error}>
+                                        {signUpErrors.email}
+                                    </Typography>
+                                )
+                            }
+                        })()}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleCloseSignUp} color="primary">
@@ -272,7 +306,7 @@ class NavBar extends Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog open={logoutDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Logout</DialogTitle>
+                    <DialogTitle id="form-dialog-title">登出</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             确定要登出吗？
@@ -289,7 +323,7 @@ class NavBar extends Component {
                 </Dialog>
 
                 <Dialog open={keyDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Logout</DialogTitle>
+                    <DialogTitle id="form-dialog-title">秘钥</DialogTitle>
                     <DialogContent>
                         <QRCode value={wif} renderAs="svg" size={256} />
                         <Typography className={classes.dialogText}>{wif}</Typography>
@@ -297,6 +331,20 @@ class NavBar extends Component {
                     <DialogActions>
                         <Button onClick={this.handleCloseKeyDialog} color="primary">
                             关闭
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog open={alert} onClose={this.handleAlertClose} aria-labelledby="form-dialog-title" fullWidth>
+                    <DialogTitle id="form-dialog-title">错误</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {alertContent}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleAlertClose} color="primary">
+                            确定
                         </Button>
                     </DialogActions>
                 </Dialog>
