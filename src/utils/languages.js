@@ -18,6 +18,7 @@ let words = {
         'post': 'Post',
         'dialog.privatekey.copy': 'Copy to Clipboard',
         'loading': 'Loading...',
+        'no_more_data': 'No More Note',
     },
     'zh-CN': {
         'apiserver': 'API 服务器',
@@ -37,6 +38,7 @@ let words = {
         'privateKeyWIF': '秘钥 (WIF格式)',
         'post': '发帖',
         'dialog.privatekey.copy': '复制到剪贴板',
+        'loading': '加载中...',
         'no_more_data': '没有更多 Note 了',
     }
 }
