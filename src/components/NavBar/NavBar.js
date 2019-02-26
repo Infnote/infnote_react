@@ -9,7 +9,6 @@ import { Store, APIClient, UserModel } from 'models'
 import { refresh } from 'models/actions'
 import { Storage , __} from 'utils'
 import QRCode from 'qrcode.react'
-import classNames from 'classnames'
 
 const styles = theme => ({
     settingsButton: {
@@ -39,9 +38,6 @@ const styles = theme => ({
         fontWeight: 'bold',
         color: theme.palette.grey[500]
     },
-    hidden: {
-        visibility: 'hidden'
-    }
 })
 
 class NavBar extends Component {
@@ -60,8 +56,7 @@ class NavBar extends Component {
         anchorEl: null,
         alert: false,
         alertContent: '',
-        signUpErrors: {},
-        copied: false,
+        signUpErrors: {}
     }
 
     handleOpenLogin = () => {
@@ -158,12 +153,6 @@ class NavBar extends Component {
         this.setState({ alert: false })
     }
 
-    copyPrivateKey = () => {
-        document.getElementById('wif-for-copy').select()
-        document.execCommand('copy')
-        this.setState({copied: true})
-    }
-
     toggleDrawer = open => () => {
         this.setState({ drawer: open })
     }
@@ -203,7 +192,7 @@ class NavBar extends Component {
 
     render() {
         const { classes } = this.props
-        const { anchorEl, apiAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors, copied } = this.state
+        const { anchorEl, apiAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors } = this.state
         return (
             <div>
                 <AppBar position="fixed" color="inherit">
@@ -353,10 +342,6 @@ class NavBar extends Component {
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <Typography className={classNames(classes.hint, copied ? '' : classes.hidden)}>已复制</Typography>
-                        <Button onClick={this.copyPrivateKey} color="primary">
-                            {__('dialog.privatekey.copy')}
-                        </Button>
                         <Button onClick={this.handleCloseKeyDialog}>
                             {__('close')}
                         </Button>

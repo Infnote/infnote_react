@@ -9,12 +9,13 @@ branches:
 
 script:
   - yarn build
+  - git clean -fd
 
 deploy:
   provider: pages
-  skip-cleanup: false
+  skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: false
   local-dir: ./build/
   on:
-    branch: gh-pages
+    branch: master
