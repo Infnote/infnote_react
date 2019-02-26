@@ -1,22 +1,30 @@
 import React, { Component } from 'react'
-import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core'
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 import { NoteCard, PostForm } from '.'
 import { NoteModel, Store } from 'models'
+import __ from '../../utils/languages';
 
 class NoteFlow extends Component {
     state = {
         notes: [],
         page: 1,
         alert: false,
-        alertContent: ''
+        alertContent: '',
+        loading: 0
     }
 
     update = (page, clear) => {
+        if (this.state.loading === 3 && !clear) {
+            return
+        }
+
+        this.setState({loading: 1})
         NoteModel.fetch(page)
             .then(notes => {
                 this.setState({
                     notes: clear ? notes : [...this.state.notes, ...notes],
-                    page: page
+                    page: page,
+                    loading: 2
                 })
             })
             .catch(error => {
@@ -24,12 +32,17 @@ class NoteFlow extends Component {
                     this.setState({alert: true, alertContent: '连接失败，服务器已停止运行或 API 服务器地址错误'})
                 } else if (error.response.status !== 404) {
                     this.setState({alert: true, alertContent: error.message})
+                } else {
+                    this.setState({loading: 3})
                 }
             })
     }
 
     bottomEvent = () => {
         const el = document.getElementById(this.state.notes.length - 1)
+        if (!el) {
+            return 
+        }
         if (el.getBoundingClientRect().bottom <= window.innerHeight) {
             this.update(this.state.page + 1)
         }
@@ -61,7 +74,7 @@ class NoteFlow extends Component {
     }
 
     render() {
-        const { notes, alert, alertContent } = this.state
+        const { notes, alert, alertContent, loading } = this.state
         const flow = notes.map((note, index) => (
             <Grid item key={index} id={index}>
                 <NoteCard object={note} />
@@ -76,6 +89,10 @@ class NoteFlow extends Component {
                                 <PostForm/>
                             </Grid>
                             {flow}
+                            <Grid item>
+                                <Typography style={ loading === 1 ? {textAlign: 'center'} : {display: 'none'}}>{__('loading')}</Typography>
+                                <Typography style={ loading === 3 ? {textAlign: 'center'} : {display: 'none'}}>{__('no_more_data')}</Typography>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -16,7 +16,8 @@ let words = {
         'ok': 'OK',
         'privateKeyWIF': 'Private Key (Wallet Import Format)',
         'post': 'Post',
-        'dialog.privatekey.copy': 'Copy to Clipboard'
+        'dialog.privatekey.copy': 'Copy to Clipboard',
+        'loading': 'Loading...',
     },
     'zh-CN': {
         'apiserver': 'API 服务器',
@@ -35,7 +36,8 @@ let words = {
         'ok': '确定',
         'privateKeyWIF': '秘钥 (WIF格式)',
         'post': '发帖',
-        'dialog.privatekey.copy': '复制到剪贴板'
+        'dialog.privatekey.copy': '复制到剪贴板',
+        'no_more_data': '没有更多 Note 了',
     }
 }
 

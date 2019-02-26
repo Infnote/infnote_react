@@ -217,7 +217,7 @@ class NavBar extends Component {
                                             onClick={this.handleMenuOpen} 
                                             className={classes.userButton}>
                                             <Typography>
-                                                <strong>{nickname.slice(0, 16) + (nickname.length > 16 ? '...' : '')}</strong>
+                                                <strong>{nickname}</strong>
                                             </Typography>
                                         </Button>
                                     )
