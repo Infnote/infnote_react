@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { AppBar, Toolbar, Typography, Grid, IconButton, withStyles, Drawer, TextField, Button } from '@material-ui/core'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Menu, MenuItem } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 import SettingsIcon from '@material-ui/icons/Settings'
 import logo from 'assets/infnote-logo.png'
 import { FixedSpace } from 'components/Utils'
@@ -15,13 +16,14 @@ const styles = theme => ({
         marginLeft: 15
     },
     drawer: {
+        [theme.breakpoints.up('xs')]: {
+            width: '100vw'
+        },
         [theme.breakpoints.up('sm')]: {
-            width: 300
+            width: 400
         },
-        [theme.breakpoints.up('lg')]: {
-            width: 500
-        },
-        padding: 15
+        padding: 15,
+        boxSizing: 'border-box'
     },
     userButton: {
         textTransform: 'none',
@@ -377,6 +379,7 @@ class NavBar extends Component {
 
                 <Drawer anchor="right" open={this.state.drawer} onClose={this.toggleDrawer(false)}>
                     <div className={classes.drawer}>
+                        <IconButton onClick={this.toggleDrawer(false)}><CloseIcon /></IconButton>
                         <TextField
                             id="api-server"
                             label={__('apiserver')}
