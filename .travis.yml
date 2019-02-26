@@ -4,13 +4,14 @@ node_js:
 
 branches:
   only:
-    master
+    - master
+    - gh-pages
 
 script:
   - yarn
   - yarn build
   - cp -r build ../
-  - git checkout -b gh-pages origin/gh-pages
+  - git checkout -t origin/gh-pages
   - rm -rf !(.*)
   - cp -r ../build/* ./
   - git add .
