@@ -8,7 +8,7 @@ branches:
     - gh-pages
 
 script:
-  - yarn
+  - git fetch
   - yarn build
   - cp -r build ../
   - git checkout -t origin/gh-pages
