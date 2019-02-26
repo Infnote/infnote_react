@@ -4,7 +4,6 @@ import { TextField, Button, Card, CardContent, Typography, withStyles, Dialog, D
 import { PostModel, Store } from 'models'
 import { refresh } from 'models/actions'
 import { __ } from 'utils'
-import { createFalse } from 'typescript';
 
 const remainLimit = {
     content: 10000

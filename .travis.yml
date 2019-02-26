@@ -10,7 +10,7 @@ script:
   - yarn
   - yarn build
   - cp -r build ../
-  - git checkout -b gh-pages
+  - git checkout -b gh-pages origin/gh-pages
   - rm -rf !(.*)
   - cp -r ../build/* ./
   - git add .
