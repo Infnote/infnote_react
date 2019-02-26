@@ -6,7 +6,7 @@ import logo from 'assets/infnote-logo.png'
 import { FixedSpace } from 'components/Utils'
 import { Store, APIClient, UserModel } from 'models'
 import { refresh } from 'models/actions'
-import { Storage } from 'utils'
+import { Storage , __} from 'utils'
 import QRCode from 'qrcode.react'
 
 const styles = theme => ({
@@ -105,7 +105,7 @@ class NavBar extends Component {
             if (err.response && err.response.status === 400) {
                 this.setState({signUpErrors: err.response.data})
             } else {
-                this.setState({alert: true, alertContent: '连接失败，服务器已停止运行或 API 服务器地址错误'})
+                this.setState({alert: true, alertContent: __('connectionError')})
             }
         })
     }
@@ -185,7 +185,7 @@ class NavBar extends Component {
 
     render() {
         const { classes } = this.props
-        const { anchorEl, apiAddress, chainAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors } = this.state
+        const { anchorEl, apiAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors } = this.state
         return (
             <div>
                 <AppBar position="fixed" color="inherit">
@@ -210,12 +210,12 @@ class NavBar extends Component {
                                     <div>
                                         <Button className={classes.userButton} onClick={this.handleOpenLogin}>
                                             <Typography>
-                                                <strong>登入</strong>
+                                                <strong>{__('login')}</strong>
                                             </Typography>
                                         </Button>
                                         <Button className={classes.userButton} onClick={this.handleClickOpenSignUp}>
                                             <Typography>
-                                                <strong>注册</strong>
+                                                <strong>{__('register')}</strong>
                                             </Typography>
                                         </Button>
                                     </div>
@@ -227,17 +227,17 @@ class NavBar extends Component {
                 </AppBar>
                 
                 <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleMenuClose}>
-                    <MenuItem onClick={this.handleOpenKeyDialog}>我的秘钥</MenuItem>  
-                    <MenuItem onClick={this.handleClickOpenLogout}>登出</MenuItem>  
+                    <MenuItem onClick={this.handleOpenKeyDialog}>{__('myPrivateKey')}</MenuItem>  
+                    <MenuItem onClick={this.handleClickOpenLogout}>{__('logout')}</MenuItem>  
                 </Menu>
 
                 <Dialog fullWidth open={loginDialog} onClose={this.handleCloseLogin} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">登入</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('login')}</DialogTitle>
                     <DialogContent>
                         <TextField 
                             margin="dense"
                             id="login-wif"
-                            label="秘钥 (Wallet Import Format)"
+                            label={__('privateKeyWIF')}
                             value={wif === null ? '' : wif}
                             onChange={this.handleChange('wif')}
                             variant="outlined"
@@ -247,21 +247,21 @@ class NavBar extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleCloseLogin} color="primary">
-                            取消
+                            {__('cancel')}
                         </Button>
                         <Button onClick={this.handleLogin} color="primary">
-                            登入
+                            {__('login')}
                         </Button>
                     </DialogActions>
                 </Dialog>
             
                 <Dialog open={signUpDialog} onClose={this.handleCloseSignUp} aria-labelledby="form-dialog-title" fullWidth>
-                    <DialogTitle id="form-dialog-title">注册</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('register')}</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"
                             id="nickname"
-                            label="昵称"
+                            label={__('nickname')}
                             fullWidth
                             value={nickname}
                             onChange={this.handleChange('nickname')}
@@ -279,7 +279,7 @@ class NavBar extends Component {
                         <TextField
                             margin="dense"
                             id="email"
-                            label="邮箱"
+                            label={__('email')}
                             type="email"
                             fullWidth
                             value={email}
@@ -298,45 +298,45 @@ class NavBar extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleCloseSignUp} color="primary">
-                            取消
+                            {__('cancel')}
                         </Button>
                         <Button onClick={this.handleSubmitSignUp} color="primary">
-                            注册
+                            {__('register')}
                         </Button>
                     </DialogActions>
                 </Dialog>
                 <Dialog open={logoutDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">登出</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('logout')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            确定要登出吗？
+                            {__('logout?')}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleCloseLogout} color="primary">
-                            取消
+                            {__('cancel')}
                         </Button>
                         <Button onClick={this.handleLogout} color="primary">
-                            登出
+                            {__('logout')}
                         </Button>
                     </DialogActions>
                 </Dialog>
 
                 <Dialog open={keyDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">秘钥</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('myPrivateKey')}</DialogTitle>
                     <DialogContent>
                         <QRCode value={wif} renderAs="svg" size={256} />
                         <Typography className={classes.dialogText}>{wif}</Typography>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleCloseKeyDialog} color="primary">
-                            关闭
+                            {__('close')}
                         </Button>
                     </DialogActions>
                 </Dialog>
 
                 <Dialog open={alert} onClose={this.handleAlertClose} aria-labelledby="form-dialog-title" fullWidth>
-                    <DialogTitle id="form-dialog-title">错误</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('error')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             {alertContent}
@@ -344,7 +344,7 @@ class NavBar extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleAlertClose} color="primary">
-                            确定
+                            {__('ok')}
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -353,23 +353,23 @@ class NavBar extends Component {
                     <div className={classes.drawer}>
                         <TextField
                             id="api-server"
-                            label="API 服务器"
+                            label={__('apiserver')}
                             value={apiAddress}
                             margin="normal"
                             fullWidth
                             onChange={this.handleChange('apiAddress')}
                         />
-                        <TextField
+                        {/* <TextField
                             id="chain-server"
                             label="Chain 服务器"
                             value={chainAddress}
                             margin="normal"
                             fullWidth
                             onChange={this.handleChange('chainAddress')}
-                        />
+                        /> */}
                         <FixedSpace size="xs2" />
                         <Button variant="contained" className={classes.button} onClick={this.drawerSave} fullWidth>
-                            保存
+                            {__('save')}
                         </Button>
                     </div>
                 </Drawer>

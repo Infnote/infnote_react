@@ -1,4 +1,5 @@
 import SETTINGS from './settings'
+import { Languages } from './languages'
 
 class Storage {
     static getValue(index) {
@@ -18,7 +19,10 @@ class Storage {
         if (Storage.getValue('apiAddress') == null)
             Storage.setValue('apiAddress', SETTINGS.apiAddress)
         if (Storage.getValue('chainAddress') == null)
-            Storage.setValue('chainAddress', SETTINGS.chainAddress)    
+            Storage.setValue('chainAddress', SETTINGS.chainAddress)
+        if (Storage.getValue('language') == null)
+            Storage.setValue('language', SETTINGS.defaultLanguage)
+        Languages.index = Storage.getValue('language')
     }
 }
 

@@ -3,6 +3,7 @@ import { FixedSpace } from 'components/Utils'
 import { TextField, Button, Card, CardContent, Typography, withStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core'
 import { PostModel, Store } from 'models'
 import { refresh } from 'models/actions'
+import { __ } from 'utils'
 
 const remainLimit = {
     title: 50,
@@ -112,14 +113,14 @@ class PostForm extends Component {
                         </Typography>
                         <FixedSpace size="xs2" />
                         <Button variant="contained" onClick={this.post} fullWidth>
-                            Post
+                            {__('post')}
                         </Button>
                         <FixedSpace size="xs2" />
                     </CardContent>
                 </Card>
 
                 <Dialog open={alert} onClose={this.handleAlertClose} aria-labelledby="form-dialog-title" fullWidth>
-                    <DialogTitle id="form-dialog-title">加载错误</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('error')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             {alertContent}
@@ -127,7 +128,7 @@ class PostForm extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleAlertClose} color="primary">
-                            确定
+                            {__('ok')}
                         </Button>
                     </DialogActions>
                 </Dialog>
