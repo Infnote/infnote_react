@@ -1,22 +1,21 @@
 import React, { Component } from 'react'
 import { FixedSpace } from 'components/Utils'
-import { TextField, Button, Card, CardContent, Typography, withStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core'
+import { TextField, Button, Card, CardContent, Typography, withStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid } from '@material-ui/core'
 import { PostModel, Store } from 'models'
 import { refresh } from 'models/actions'
 import { __ } from 'utils'
 
 const remainLimit = {
-    title: 50,
     content: 10000
 }
 
 const styles = {
     remainText: {
-        textAlign: 'right',
+        textAlign: 'left',
         color: 'gray',
     },
     remainHighlight: {
-        textAlign: 'right',
+        textAlign: 'left',
         color: 'red'
     }
 }
@@ -25,9 +24,7 @@ class PostForm extends Component {
 
     state = {
         content: '',
-        title: '',
         display: PostModel.isAllowed(),
-        titleRemain: remainLimit.title,
         contentRemain: remainLimit.content,
         alert: false,
         alertContent: ''
@@ -45,7 +42,7 @@ class PostForm extends Component {
         if (content.length > remainLimit.content || title.length > remainLimit.title) {
             return
         }
-        PostModel.submit(title, content).then(() => {
+        PostModel.submit('', content).then(() => {
             this.setState({ content: '', title: '' })
             Store.dispatch(refresh())
         }).catch( err => {
@@ -70,7 +67,7 @@ class PostForm extends Component {
 
     render() {
         const { classes } = this.props
-        const { content, title, display, titleRemain, contentRemain, alert, alertContent} = this.state
+        const { content, display, contentRemain, alert, alertContent} = this.state
 
         if (display === false) 
             return (<div></div>)
@@ -80,23 +77,7 @@ class PostForm extends Component {
                     <CardContent>
                         <TextField
                             id="outlined-multiline-flexible"
-                            label="Title"
-                            rowsMax="4"
-                            fullWidth={true}
-                            value={title}
-                            onChange={this.handleChange('title')}
-                            //className={classes.textField}
-                            margin="normal"
-                            // helperText="hello"
-                        />
-                        <Typography 
-                            className={titleRemain >= 0 ? classes.remainText : classes.remainHighlight}>
-                            {titleRemain >= 0 ? titleRemain : 0}
-                        </Typography>
-                        <FixedSpace size="xs2" />
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            label="Post"
+                            label="Note"
                             multiline
                             rows="4"
                             fullWidth
@@ -107,15 +88,18 @@ class PostForm extends Component {
                             // helperText="hello"
                             variant="outlined"
                         />
-                        <Typography 
-                            className={contentRemain >= 0 ? classes.remainText : classes.remainHighlight}>
-                            {contentRemain >= 0 ? contentRemain : 0}
-                        </Typography>
-                        <FixedSpace size="xs2" />
-                        <Button variant="contained" onClick={this.post} fullWidth>
-                            {__('post')}
-                        </Button>
-                        <FixedSpace size="xs2" />
+                        <FixedSpace size="xs4" />
+                        <Grid container justify='space-between'>
+                            <Grid item>
+                                <Typography 
+                                    className={contentRemain >= 0 ? classes.remainText : classes.remainHighlight}>
+                                    {contentRemain >= 0 ? contentRemain : 0}
+                                </Typography>
+                            </Grid>    
+                            <Grid item>
+                                <Button variant="contained" onClick={this.post}>{__('post')}</Button>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Card>
 

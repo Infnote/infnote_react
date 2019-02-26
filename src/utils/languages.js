@@ -15,7 +15,8 @@ let words = {
         'myPrivateKey': 'My Private Key',
         'ok': 'OK',
         'privateKeyWIF': 'Private Key (Wallet Import Format)',
-        'post': 'Post'
+        'post': 'Post',
+        'dialog.privatekey.copy': 'Copy to Clipboard'
     },
     'zh-CN': {
         'apiserver': 'API 服务器',
@@ -33,7 +34,8 @@ let words = {
         'myPrivateKey': '我的密钥',
         'ok': '确定',
         'privateKeyWIF': '秘钥 (WIF格式)',
-        'post': '发帖'
+        'post': '发帖',
+        'dialog.privatekey.copy': '复制到剪贴板'
     }
 }
 

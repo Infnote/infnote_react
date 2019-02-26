@@ -8,6 +8,7 @@ import { Store, APIClient, UserModel } from 'models'
 import { refresh } from 'models/actions'
 import { Storage , __} from 'utils'
 import QRCode from 'qrcode.react'
+import classNames from 'classnames'
 
 const styles = theme => ({
     settingsButton: {
@@ -30,6 +31,14 @@ const styles = theme => ({
     },
     error: {
         color: 'red'
+    },
+    hint: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: theme.palette.grey[500]
+    },
+    hidden: {
+        visibility: 'hidden'
     }
 })
 
@@ -49,7 +58,8 @@ class NavBar extends Component {
         anchorEl: null,
         alert: false,
         alertContent: '',
-        signUpErrors: {}
+        signUpErrors: {},
+        copied: false,
     }
 
     handleOpenLogin = () => {
@@ -139,11 +149,17 @@ class NavBar extends Component {
     }
 
     handleCloseKeyDialog = () => {
-        this.setState({ keyDialog: false })
+        this.setState({ keyDialog: false, copied: false })
     }
 
     handleAlertClose = () => {
         this.setState({ alert: false })
+    }
+
+    copyPrivateKey = () => {
+        document.getElementById('wif-for-copy').select()
+        document.execCommand('copy')
+        this.setState({copied: true})
     }
 
     toggleDrawer = open => () => {
@@ -185,7 +201,7 @@ class NavBar extends Component {
 
     render() {
         const { classes } = this.props
-        const { anchorEl, apiAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors } = this.state
+        const { anchorEl, apiAddress, wif, nickname, email, logged, loginDialog, signUpDialog, logoutDialog, keyDialog, alert, alertContent, signUpErrors, copied } = this.state
         return (
             <div>
                 <AppBar position="fixed" color="inherit">
@@ -305,7 +321,7 @@ class NavBar extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Dialog open={logoutDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title">
+                <Dialog open={logoutDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title" fullWidth>
                     <DialogTitle id="form-dialog-title">{__('logout')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -322,14 +338,24 @@ class NavBar extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <Dialog open={keyDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title">
+                <Dialog open={keyDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title" >
                     <DialogTitle id="form-dialog-title">{__('myPrivateKey')}</DialogTitle>
                     <DialogContent>
-                        <QRCode value={wif} renderAs="svg" size={256} />
-                        <Typography className={classes.dialogText}>{wif}</Typography>
+                        <Grid container direction='column' spacing>
+                            <Grid item>
+                                <QRCode value={wif} renderAs="svg" size={256} />
+                            </Grid>
+                            <Grid item>
+                                <TextField id='wif-for-copy' value={wif} readOnly fullWidth/>
+                            </Grid>
+                        </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleCloseKeyDialog} color="primary">
+                        <Typography className={classNames(classes.hint, copied ? '' : classes.hidden)}>已复制</Typography>
+                        <Button onClick={this.copyPrivateKey} color="primary">
+                            {__('dialog.privatekey.copy')}
+                        </Button>
+                        <Button onClick={this.handleCloseKeyDialog}>
                             {__('close')}
                         </Button>
                     </DialogActions>
