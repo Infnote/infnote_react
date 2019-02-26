@@ -9,7 +9,7 @@ branches:
 
 install:
   - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-  - git fetch --unshallow --tags
+  - git fetch
 
 script:
   - yarn build
