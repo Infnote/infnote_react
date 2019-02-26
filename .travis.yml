@@ -7,8 +7,11 @@ branches:
     - master
     - gh-pages
 
+install:
+  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  - git fetch --unshallow --tags
+
 script:
-  - git fetch
   - yarn build
   - cp -r build ../
   - git checkout -t origin/gh-pages
