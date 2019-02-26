@@ -7,16 +7,14 @@ branches:
     - master
     - gh-pages
 
-install:
-  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-  - git fetch
-
 script:
   - yarn build
-  - cp -r build ../
-  - git checkout -t origin/gh-pages
-  - rm -rf !(.*)
-  - cp -r ../build/* ./
-  - git add .
-  - git commit -m "build by travis"
-  - git push
+
+deploy:
+  provider: pages
+  skip-cleanup: false
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: false
+  local-dir: ./build/
+  on:
+    branch: gh-pages
