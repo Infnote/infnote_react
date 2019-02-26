@@ -1,6 +1,6 @@
 const SETTINGS = {
-    apiAddress: 'http://api.infnote.com',
-    chainAddress: 'http://api.infnote.com'
+    apiAddress: 'http://hk.infnote.com',
+    chainAddress: 'http://hk.infnote.com'
 }
 
 export default SETTINGS
