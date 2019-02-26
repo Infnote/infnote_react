@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardHeader, CardContent, Typography, Avatar, withStyles } from '@material-ui/core'
-
-const style = {
-    title: {
-        fontWeight: 'bold'
-    }
-}
+import { Card, CardHeader, CardContent, Typography, Avatar } from '@material-ui/core'
 
 class Note extends Component {
 
@@ -23,7 +17,7 @@ class Note extends Component {
     }
 
     render() {
-        const { object, classes } = this.props
+        const { object } = this.props
         let time = Note.timeConverter(object.dateSubmitted)
         return (
             <Card>
@@ -33,9 +27,6 @@ class Note extends Component {
                 title={object.user.nickname}
                 subheader={time.toString()} />
                 <CardContent>
-                    <Typography className={classes.title}>
-                        {object.title}
-                    </Typography>
                     <Typography >
                         {object.content}
                     </Typography>
@@ -45,4 +36,4 @@ class Note extends Component {
     }
 }
 
-export default withStyles(style)(Note)
+export default Note

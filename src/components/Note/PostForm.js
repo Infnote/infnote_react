@@ -38,8 +38,8 @@ class PostForm extends Component {
     }
 
     post = () => {
-        const { title, content } = this.state
-        if (content.length > remainLimit.content || title.length > remainLimit.title) {
+        const { content } = this.state
+        if (content.length > remainLimit.content) {
             return
         }
         PostModel.submit('', content).then(() => {

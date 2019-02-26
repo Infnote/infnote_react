@@ -145,7 +145,7 @@ class NavBar extends Component {
     }
 
     handleOpenKeyDialog = () => {
-        this.setState({ keyDialog: true })
+        this.setState({ keyDialog: true, anchorEl: null})
     }
 
     handleCloseKeyDialog = () => {
@@ -217,7 +217,7 @@ class NavBar extends Component {
                                             onClick={this.handleMenuOpen} 
                                             className={classes.userButton}>
                                             <Typography>
-                                                <strong>{nickname}</strong>
+                                                <strong>{nickname.slice(0, 16) + (nickname.length > 16 ? '...' : '')}</strong>
                                             </Typography>
                                         </Button>
                                     )

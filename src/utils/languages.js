@@ -25,7 +25,7 @@ let words = {
         'connectionError': '连接错误',
         'email': '邮箱',
         'error': '错误',
-        'login':'登陆',
+        'login':'登录',
         'logout':'登出',
         'logout?': '确定要登出吗？',
         'register':'注册',
