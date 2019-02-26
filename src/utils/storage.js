@@ -21,7 +21,12 @@ class Storage {
         if (Storage.getValue('chainAddress') == null)
             Storage.setValue('chainAddress', SETTINGS.chainAddress)
         if (Storage.getValue('language') == null)
-            Storage.setValue('language', SETTINGS.defaultLanguage)
+        {
+            let language = navigator.language || navigator.userLanguage
+            if ((language !== 'en-US') && (language !== 'zh-CN'))
+                language = SETTINGS.defaultLanguage
+            Storage.setValue('language', language)
+        }
         Languages.index = Storage.getValue('language')
     }
 }

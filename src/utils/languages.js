@@ -1,5 +1,5 @@
 let words = {
-    en_US: {
+    'en-US': {
         'apiserver': 'API Server',
         'cancel': 'Cancel',
         'close': 'Close',
@@ -17,7 +17,7 @@ let words = {
         'privateKeyWIF': 'Private Key (Wallet Import Format)',
         'post': 'Post'
     },
-    zh_CN: {
+    'zh-CN': {
         'apiserver': 'API 服务器',
         'cancel': '取消',
         'close': '关闭',
