@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, IconButton } from '@material-ui/core'
+import Markdown from 'react-markdown'
+import CloseIcon from '@material-ui/icons/Close'
 import { NoteCard, PostForm } from '.'
 import { NoteModel, Store } from 'models'
-import __ from '../../utils/languages';
+import __ from '../../utils/languages'
+import CodeRender from './CodeRender'
 
 class NoteFlow extends Component {
     state = {
@@ -10,7 +13,9 @@ class NoteFlow extends Component {
         page: 1,
         alert: false,
         alertContent: '',
-        loading: 0
+        loading: 0,
+        expand: false,
+        expandContent: '',
     }
 
     update = (page, clear) => {
@@ -52,6 +57,17 @@ class NoteFlow extends Component {
         this.setState({alert: false})
     }
 
+    handleExpand = note => () => {
+        this.setState({expand: true, expandContent: note.content})
+        NoteModel.fetchNote(note.id).then(note => {
+            this.setState({expandContent: note.content})
+        })
+    }
+
+    handleExpandClose = () => {
+        this.setState({expand: false})
+    }
+
     componentDidMount() {
         this.update(1)
         document.addEventListener('scroll', this.bottomEvent)
@@ -74,10 +90,10 @@ class NoteFlow extends Component {
     }
 
     render() {
-        const { notes, alert, alertContent, loading } = this.state
+        const { notes, alert, alertContent, loading, expand, expandContent } = this.state
         const flow = notes.map((note, index) => (
             <Grid item key={index} id={index}>
-                <NoteCard object={note} />
+                <NoteCard object={note} onClick={this.handleExpand(note)} />
             </Grid>
         ))
         return (
@@ -97,7 +113,7 @@ class NoteFlow extends Component {
                     </Grid>
                 </Grid>
                 <Dialog open={alert} onClose={this.handleAlertClose} aria-labelledby="form-dialog-title" fullWidth>
-                    <DialogTitle id="form-dialog-title">加载错误</DialogTitle>
+                    <DialogTitle id="form-dialog-title">{__('loading.error')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             {alertContent}
@@ -105,9 +121,20 @@ class NoteFlow extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleAlertClose} color="primary">
-                            确定
+                            {__('ok')}
                         </Button>
                     </DialogActions>
+                </Dialog>
+
+                <Dialog open={expand} onClose={this.handleExpandClose} aria-labelledby="form-dialog-title" fullWidth>
+                    <DialogActions>
+                        <IconButton onClick={this.handleExpandClose} color="primary">
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogActions>
+                    <DialogContent>
+                        <Markdown source={expandContent} renderers={{code: CodeRender}} />
+                    </DialogContent>
                 </Dialog>
             </div>
         )

@@ -21,6 +21,13 @@ class Note {
         })
     }
 
+    static fetchNote(payloadID) {
+        return APIClient.shared().client.get('/post/' + payloadID + '/')
+            .then(response => {
+                return new Note(response.data)
+            })
+    }
+
     constructor(props) {
         if (props) {
             let map = Note.getMap()

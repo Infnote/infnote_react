@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { Card, CardHeader, CardContent, Typography, Avatar } from '@material-ui/core'
+import CodeRender from './CodeRender'
 
 class Note extends Component {
 
@@ -17,18 +19,18 @@ class Note extends Component {
     }
 
     render() {
-        const { object } = this.props
+        const { object, onClick } = this.props
         let time = Note.timeConverter(object.dateSubmitted)
         return (
-            <Card>
+            <Card onClick={onClick}>
                 <CardHeader avatar={
                     <Avatar>∞</Avatar>
                 }
                 title={object.user.nickname}
                 subheader={time.toString()} />
                 <CardContent>
-                    <Typography style={{wordBreak: 'break-word'}}>
-                        {object.content}
+                    <Typography component="div" style={{wordBreak: 'break-word'}}>
+                        <ReactMarkdown source={object.content} renderers={{code: CodeRender}} />
                     </Typography>
                 </CardContent>
             </Card>
