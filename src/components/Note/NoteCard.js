@@ -27,7 +27,7 @@ class Note extends Component {
                 title={object.user.nickname}
                 subheader={time.toString()} />
                 <CardContent>
-                    <Typography >
+                    <Typography style={{wordBreak: 'break-word'}}>
                         {object.content}
                     </Typography>
                 </CardContent>
