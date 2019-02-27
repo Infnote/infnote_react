@@ -20,8 +20,7 @@ class Storage {
             Storage.setValue('apiAddress', SETTINGS.apiAddress)
         if (Storage.getValue('chainAddress') == null)
             Storage.setValue('chainAddress', SETTINGS.chainAddress)
-        if (Storage.getValue('language') == null)
-        {
+        if (Storage.getValue('language') == null) {
             let language = navigator.language || navigator.userLanguage
             if ((language !== 'en-US') && (language !== 'zh-CN'))
                 language = SETTINGS.defaultLanguage

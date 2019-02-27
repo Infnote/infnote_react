@@ -24,7 +24,6 @@ class PostForm extends Component {
 
     state = {
         content: '',
-        display: PostModel.isAllowed(),
         contentRemain: remainLimit.content,
         alert: false,
         alertContent: ''
@@ -54,27 +53,9 @@ class PostForm extends Component {
         })
     }
 
-    componentWillMount() {
-        this.setState({ loged: PostModel.isAllowed()})
-        this.unsubscribe = Store.subscribe(() => {
-            const refresh = Store.getState().refresh
-            if (refresh) {
-                this.setState({ display: PostModel.isAllowed()})
-            }
-        })
-    }
-
-    componentWillUnmount() {
-        this.setState({ display: PostModel.isAllowed()})
-        this.unsubscribe()
-    }
-
     render() {
         const { classes } = this.props
-        const { content, display, contentRemain, alert, alertContent} = this.state
-
-        if (display === false) 
-            return (<div></div>)
+        const { content, contentRemain, alert, alertContent} = this.state
         return (
             <div>
                 <Card>

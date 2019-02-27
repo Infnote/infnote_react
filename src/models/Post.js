@@ -10,13 +10,7 @@ class Post {
         return ['title', 'content', 'data_submitted', 'reply_to', 'user_id', 'nsfw', 'signature']
     }
 
-    static isAllowed(){
-        return User.currentUserExist()
-    }
-
     static submit(title, content) {
-        if (Post.isAllowed() === false)
-            return false
         let data = { 
             title: title, 
             content: content,
@@ -27,7 +21,7 @@ class Post {
         
         let jsonString = JSON.stringify(data, Object.keys(data).sort())
         let buffer = new Buffer(jsonString)
-        let key = User.currentUser['key']
+        let key = User.currentUser()['key']
         data['signature'] = key.sign(buffer)
         data['user_id'] = key.toAddress()
         return APIClient.shared().client.post('/post/', data)

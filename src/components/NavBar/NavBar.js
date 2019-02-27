@@ -36,7 +36,8 @@ const styles = theme => ({
     hint: {
         fontSize: 12,
         fontWeight: 'bold',
-        color: theme.palette.grey[500]
+        color: theme.palette.grey[500],
+        padding: 5
     },
 })
 
@@ -73,7 +74,7 @@ class NavBar extends Component {
         if (this.state.wif != null && this.state.wif.length > 0) {
             try {
                 UserModel.updateCurrentUser(this.state.wif).then(() => {
-                    this.setState({ nickname: UserModel.currentUser['nickname'], logged: true })
+                    this.setState({ nickname: UserModel.currentUser()['nickname'], logged: true })
                     Storage.setValue('wif', this.state.wif)
                     APIClient.changeURL(this.state.apiAddress)
                     Store.dispatch(refresh())
@@ -101,8 +102,8 @@ class NavBar extends Component {
         UserModel.signUp(this.state.nickname, this.state.email).then(wif => {
             this.setState({
                 logged: true, 
-                nickname: UserModel.currentUser['nickname'], 
-                email: UserModel.currentUser['email'], 
+                nickname: UserModel.currentUser()['nickname'], 
+                email: UserModel.currentUser()['email'], 
                 wif: wif, 
                 signUpDialog: false 
             })
@@ -181,11 +182,11 @@ class NavBar extends Component {
     }
 
     componentWillMount() {
-        if ((UserModel.currentUserExist() === false) && (this.state.wif != null))
+        if (this.state.wif != null)
             UserModel.updateCurrentUser(this.state.wif).then(() => {
                 this.setState({ logged: true })
-                this.setState({ nickname: UserModel.currentUser['nickname'] })
-                this.setState({ email: UserModel.currentUser['email'] })
+                this.setState({ nickname: UserModel.currentUser()['nickname'] })
+                this.setState({ email: UserModel.currentUser()['email'] })
                 Store.dispatch(refresh()) 
             })
     }
@@ -198,37 +199,48 @@ class NavBar extends Component {
                 <AppBar position="fixed" color="inherit">
                     <Toolbar>
                         <img src={logo} alt="" srcSet={logo + ' 2x'} width="80" />
-                        <Grid container justify="flex-end" alignItems="center">
-                            {(() => {
-                                if (logged) {
-                                    return (
-                                        <Button 
-                                            aria-owns={anchorEl ? 'simple-menu' : undefined}
-                                            aria-haspopup="true" 
-                                            onClick={this.handleMenuOpen} 
-                                            className={classes.userButton}>
-                                            <Typography>
-                                                <strong>{nickname}</strong>
-                                            </Typography>
-                                        </Button>
-                                    )
-                                }
+                        {(() => {
+                            if (logged) {
                                 return (
-                                    <div>
+                                    <Grid container justify="flex-end" alignItems="center">
+                                        <Grid item>
+                                            <Button 
+                                                aria-owns={anchorEl ? 'simple-menu' : undefined}
+                                                aria-haspopup="true" 
+                                                onClick={this.handleMenuOpen} 
+                                                className={classes.userButton}>
+                                                <Typography>
+                                                    <strong>{nickname}</strong>
+                                                </Typography>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            }
+                            return (
+                                <Grid container justify="flex-end" alignItems="center">
+                                    <Grid item>
+                                        <Typography className={classes.hint}>
+                                            {__('anonymous.status')}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
                                         <Button className={classes.userButton} onClick={this.handleOpenLogin}>
                                             <Typography>
                                                 <strong>{__('login')}</strong>
                                             </Typography>
                                         </Button>
+                                    </Grid>
+                                    <Grid item>
                                         <Button className={classes.userButton} onClick={this.handleClickOpenSignUp}>
                                             <Typography>
                                                 <strong>{__('register')}</strong>
                                             </Typography>
                                         </Button>
-                                    </div>
-                                )
-                            })()}
-                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            )
+                        })()}
                         <IconButton className={classes.settingsButton} onClick={this.toggleDrawer(true)}><SettingsIcon /></IconButton>
                     </Toolbar>
                 </AppBar>

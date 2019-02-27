@@ -1,21 +1,32 @@
 import APIClient from './APIClient'
 import Key from './Key'
+import __ from '../utils/languages'
+
+var __currentUser
 
 class User {
-    static currentUser = {}
+    static currentUser() {
+        if (__currentUser) {
+            return __currentUser
+        }
+        __currentUser = User.anonymous()
+        return __currentUser
+    }
 
-    static currentUserExist() {
-        return (Object.keys(User.currentUser).length !== 0)
+    static setCurrentUser(user) {
+        __currentUser = user
     }
 
     static updateCurrentUser(wif) {
         let key = Key.fromWIF(wif)
         let userID = key.toAddress()
         return User.getNickName(userID).then(response => {
-            User.currentUser['key'] = key
-            User.currentUser['userID'] = userID
-            User.currentUser['nickname'] = response.data['nickname']
-            User.currentUser['email'] = response.data['email']
+            User.setCurrentUser({
+                key,
+                userID,
+                nickname: response.data['nickname'],
+                email: response.data['email']
+            })
         })
     }
 
@@ -32,21 +43,33 @@ class User {
             email: email,
             signature: signature
         }).then(response => {
-            User.currentUser['key'] = key
-            User.currentUser['userID'] = userID
-            User.currentUser['nickname'] = response.data['nickname']
-            User.currentUser['email'] = response.data['email']
+            User.setCurrentUser({
+                key,
+                userID,
+                nickname: response.data['nickname'],
+                email: response.data['email']
+            })
             return key.toWIF()
         })
     }
 
     static logout() {
-        if (User.currentUserExist())
-            User.currentUser = {}
+        User.currentUser = User.anonymous()
     }
 
     static getNickName(userID) {
         return APIClient.shared().client.get('/user/id/' + userID + '/')
+    }
+
+    static anonymous() {
+        let key = Key.fromWIF('Ky5DFuCVeiZ62gMcMMhedyHAo7VQDomX7JgMRp8xJ1HdtwqJJoq9')
+        let userID = key.toAddress()
+        return {
+            key,
+            userID,
+            nickname: __('anonymous'),
+            email: 'anonymous@infnote.com'
+        }
     }
 }
 
