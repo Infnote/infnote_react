@@ -376,7 +376,9 @@ class NavBar extends Component {
 
                 <Drawer anchor="right" open={this.state.drawer} onClose={this.toggleDrawer(false)}>
                     <div className={classes.drawer}>
-                        <IconButton onClick={this.toggleDrawer(false)}><CloseIcon /></IconButton>
+                        <Grid container justify='flex-end'>
+                            <IconButton onClick={this.toggleDrawer(false)}><CloseIcon /></IconButton>
+                        </Grid>
                         <TextField
                             id="api-server"
                             label={__('apiserver')}
