@@ -1,5 +1,6 @@
 import APIClient from './APIClient'
 import User from './User'
+/* global Buffer */
 
 class Post {
     // static getMap() {

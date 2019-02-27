@@ -1,6 +1,7 @@
 import APIClient from './APIClient'
 import Key from './Key'
 import __ from '../utils/languages'
+/* global Buffer */
 
 var __currentUser
 
