@@ -133,7 +133,9 @@ class NoteFlow extends Component {
                         </IconButton>
                     </DialogActions>
                     <DialogContent>
-                        <Markdown source={expandContent} renderers={{code: CodeRender}} />
+                        <Typography component="div" style={{wordBreak: 'break-word'}}>
+                            <Markdown source={expandContent} renderers={{code: CodeRender}} />
+                        </Typography>
                     </DialogContent>
                 </Dialog>
             </div>
