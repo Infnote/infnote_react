@@ -72,25 +72,19 @@ class NavBar extends Component {
     handleLogin = () => {
         this.handleCloseLogin()
         if (this.state.wif != null && this.state.wif.length > 0) {
-            try {
-                UserModel.updateCurrentUser(this.state.wif).then(() => {
-                    this.setState({ nickname: UserModel.currentUser()['nickname'], logged: true })
-                    Storage.setValue('wif', this.state.wif)
-                    APIClient.changeURL(this.state.apiAddress)
-                    Store.dispatch(refresh())
-                }).catch(err => {
-                    if (err.response.status === 404) {
-                        this.setState({alert: true, alertContent: __('user.notfound')})
-                    } else {
-                        this.setState({alert: true, alertContent: err.message})
-                    }
-                    this.logout()
-                })
-            }
-            catch(err) {
-                this.setState({alert: true, alertContent: err.message})
+            UserModel.updateCurrentUser(this.state.wif).then(() => {
+                this.setState({ nickname: UserModel.currentUser()['nickname'], logged: true })
+                Storage.setValue('wif', this.state.wif)
+                APIClient.changeURL(this.state.apiAddress)
+                Store.dispatch(refresh())
+            }).catch(err => {
+                if (err.response && err.response.status === 404) {
+                    this.setState({alert: true, alertContent: __('user.notfound')})
+                } else {
+                    this.setState({alert: true, alertContent: err.message})
+                }
                 this.logout()
-            }
+            })  
         }
     }
 

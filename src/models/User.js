@@ -55,7 +55,7 @@ class User {
     }
 
     static logout() {
-        User.currentUser = User.anonymous()
+        User.setCurrentUser(User.anonymous())
     }
 
     static getNickName(userID) {
