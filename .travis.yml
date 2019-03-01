@@ -12,7 +12,7 @@ script:
   - git clean -fd
 
 deploy:
-  repo: Infnote/infnote_pku
+  repo: github.com/Infnote/infnote_pku.git
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
