@@ -13,10 +13,22 @@ script:
   - echo 'io.infnote.com' > ./build/CNAME
 
 deploy:
+  repo: Infnote/infnote_react
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: false
   local-dir: ./build/
+  fqdn: pku.infnote.com
+  on:
+    branch: master
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: false
+  local-dir: ./build/
+  fqdn: io.infnote.com
   on:
     branch: master
