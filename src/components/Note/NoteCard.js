@@ -7,13 +7,14 @@ import __ from '../../utils/languages'
 class Note extends Component {
     render() {
         const { object, onClick } = this.props
-        let time = new Date(object.dateSubmitted * 1000)
+        const time = new Date(object.dateSubmitted * 1000)
+        const nickname = object.user.nickname
         return (
             <Card onClick={object.truncated ? onClick : null}>
                 <CardHeader avatar={
                     <Avatar>∞</Avatar>
                 }
-                title={object.user.nickname}
+                title={nickname === 'anonymous' ? __(nickname) : nickname}
                 subheader={time.toLocaleString()} />
                 <CardContent style={{paddingTop: 0}}>
                     <Typography component="div" style={{wordBreak: 'break-word'}}>
