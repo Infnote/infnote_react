@@ -12,22 +12,22 @@ script:
   - git clean -fd
 
 deploy:
-  repo: github.com/Infnote/infnote_pku.git
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep-history: false
-  local-dir: ./build/
-  fqdn: pku.infnote.com
-  on:
-    branch: master
-
-deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: false
   local-dir: ./build/
   fqdn: io.infnote.com
+  on:
+    branch: master
+
+deploy:
+  repo: Infnote/infnote_pku
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: false
+  local-dir: ./build/
+  fqdn: pku.infnote.com
   on:
     branch: master
