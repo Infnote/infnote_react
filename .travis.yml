@@ -10,7 +10,6 @@ branches:
 script:
   - yarn build
   - git clean -fd
-  - echo 'io.infnote.com' > ./build/CNAME
 
 deploy:
   repo: Infnote/infnote_pku
