@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, IconButton } from '@material-ui/core'
+import { CardHeader, Avatar, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography, IconButton } from '@material-ui/core'
 import Markdown from 'react-markdown'
 import CloseIcon from '@material-ui/icons/Close'
 import { NoteCard, PostForm } from '.'
@@ -15,7 +15,10 @@ class NoteFlow extends Component {
         alertContent: '',
         loading: 0,
         expand: false,
-        expandContent: '',
+        expandNote: {
+            user: {},
+            dateSubmitted: 0
+        },
     }
 
     update = (page, clear) => {
@@ -58,9 +61,9 @@ class NoteFlow extends Component {
     }
 
     handleExpand = note => () => {
-        this.setState({expand: true, expandContent: note.content})
+        this.setState({expand: true, expandNote: note})
         NoteModel.fetchNote(note.id).then(note => {
-            this.setState({expandContent: note.content})
+            this.setState({expandNote: note})
         })
     }
 
@@ -90,12 +93,13 @@ class NoteFlow extends Component {
     }
 
     render() {
-        const { notes, alert, alertContent, loading, expand, expandContent } = this.state
+        const { notes, alert, alertContent, loading, expand, expandNote } = this.state
         const flow = notes.map((note, index) => (
             <Grid item key={index} id={index}>
                 <NoteCard object={note} onClick={this.handleExpand(note)} />
             </Grid>
         ))
+        const time = new Date(expandNote.dateSubmitted * 1000)
         return (
             <div>
                 <Grid container justify="center">
@@ -127,14 +131,21 @@ class NoteFlow extends Component {
                 </Dialog>
 
                 <Dialog open={expand} onClose={this.handleExpandClose} aria-labelledby="form-dialog-title" fullWidth>
-                    <DialogActions>
-                        <IconButton onClick={this.handleExpandClose} color="primary">
-                            <CloseIcon />
-                        </IconButton>
-                    </DialogActions>
+                    <CardHeader 
+                        avatar={
+                            <Avatar>∞</Avatar>
+                        }
+                        title={expandNote.user.nickname}
+                        subheader={time.toLocaleString()}
+                        action={
+                            <IconButton onClick={this.handleExpandClose} color="primary">
+                                <CloseIcon />
+                            </IconButton>
+                        } 
+                    />
                     <DialogContent>
                         <Typography component="div" style={{wordBreak: 'break-word'}}>
-                            <Markdown source={expandContent} renderers={{code: CodeRender}} />
+                            <Markdown source={expandNote.content} renderers={{code: CodeRender}} />
                         </Typography>
                     </DialogContent>
                 </Dialog>

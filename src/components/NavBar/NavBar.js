@@ -400,6 +400,9 @@ class NavBar extends Component {
                             {__('save')}
                         </Button>
                     </div>
+                    <Typography style={{textAlign: 'center', color: 'gray', position: 'fixed', bottom: 15, width: '100%'}}>
+                        infnote v0.1.0
+                    </Typography>
                 </Drawer>
             </div>
         )
