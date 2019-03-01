@@ -7,7 +7,7 @@ import logo from 'assets/infnote-logo.png'
 import { FixedSpace } from 'components/Utils'
 import { Store, APIClient, UserModel } from 'models'
 import { refresh } from 'models/actions'
-import { Storage , __} from 'utils'
+import { Storage , __ } from 'utils'
 import QRCode from 'qrcode.react'
 
 const styles = theme => ({
@@ -79,7 +79,11 @@ class NavBar extends Component {
                     APIClient.changeURL(this.state.apiAddress)
                     Store.dispatch(refresh())
                 }).catch(err => {
-                    this.setState({alert: true, alertContent: err.message})
+                    if (err.response.status === 404) {
+                        this.setState({alert: true, alertContent: __('user.notfound')})
+                    } else {
+                        this.setState({alert: true, alertContent: err.message})
+                    }
                     this.logout()
                 })
             }
@@ -105,7 +109,8 @@ class NavBar extends Component {
                 nickname: UserModel.currentUser()['nickname'], 
                 email: UserModel.currentUser()['email'], 
                 wif: wif, 
-                signUpDialog: false 
+                signUpDialog: false,
+                keyDialog: true,
             })
             Storage.setValue('wif', wif)
             Store.dispatch(refresh())
@@ -344,8 +349,11 @@ class NavBar extends Component {
                 <Dialog open={keyDialog} onClose={this.handleCloseLogout} aria-labelledby="form-dialog-title" >
                     <DialogTitle id="form-dialog-title">{__('myPrivateKey')}</DialogTitle>
                     <DialogContent>
-                        <Grid container direction='column' spacing>
+                        <Grid container direction='column' spacing={16}>
                             <Grid item>
+                                <Typography style={{color: 'red'}}>{__('private_key.important_hint')}</Typography>
+                            </Grid>
+                            <Grid item style={{textAlign: 'center'}}>
                                 <QRCode value={wif} renderAs="svg" size={256} />
                             </Grid>
                             <Grid item>
