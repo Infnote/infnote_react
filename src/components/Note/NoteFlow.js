@@ -116,6 +116,7 @@ class NoteFlow extends Component {
                         </Grid>
                     </Grid>
                 </Grid>
+                
                 <Dialog open={alert} onClose={this.handleAlertClose} aria-labelledby="form-dialog-title" fullWidth>
                     <DialogTitle id="form-dialog-title">{__('loading.error')}</DialogTitle>
                     <DialogContent>

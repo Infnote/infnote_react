@@ -3,11 +3,11 @@ import APIClient from './APIClient'
 
 class Note {
     static getMap() {
-        return {id: 'id', replyTo: 'reply_to', lastReply: 'last_reply', user: 'user', replies: 'replies', title: 'title', content: 'content', dateSubmitted: 'date_submitted', nsfw: 'nsfw', signature: 'signature', blockTime: 'block_time', blockHeight: 'block_height'}
+        return {id: 'id', replyTo: 'reply_to', lastReply: 'last_reply', user: 'user', replies: 'replies', title: 'title', content: 'content', dateSubmitted: 'date_submitted', nsfw: 'nsfw', signature: 'signature', blockTime: 'block_time', blockHeight: 'block_height', truncated: 'truncated'}
     }
 
     static getMembers() {
-        return ['id', 'replyTo', 'lastReply', 'user', 'replies', 'title', 'content', 'dateSubmitted', 'nsfw', 'signature', 'blockTime', 'blockHeight']
+        return ['id', 'replyTo', 'lastReply', 'user', 'replies', 'title', 'content', 'dateSubmitted', 'nsfw', 'signature', 'blockTime', 'blockHeight', 'truncated']
     }
 
     static fetch(page=1, size=10) {

@@ -22,6 +22,7 @@ export class Languages {
             'no_more_data': 'No More Note',
             'anonymous': 'Anonymous',
             'anonymous.status': 'As Anonymous',
+            'expand': 'Expand to Read All'
         },
         'zh-CN': {
             'apiserver': 'API 服务器',
@@ -45,6 +46,7 @@ export class Languages {
             'no_more_data': '没有更多 Note 了',
             'anonymous': '匿名',
             'anonymous.status': '匿名状态',
+            'expand': '阅读全文'
         }
     }
 
