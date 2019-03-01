@@ -13,7 +13,7 @@ script:
   - echo 'io.infnote.com' > ./build/CNAME
 
 deploy:
-  repo: Infnote/infnote_react
+  repo: Infnote/infnote_pku
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
