@@ -3,7 +3,7 @@ import { CardHeader, Avatar, Grid, Dialog, DialogTitle, DialogContent, DialogCon
 import Markdown from 'react-markdown'
 import CloseIcon from '@material-ui/icons/Close'
 import { NoteCard, PostForm } from '.'
-import { NoteModel, Store } from 'models'
+import { NoteModel } from 'models'
 import __ from '../../utils/languages'
 import CodeRender from './CodeRender'
 
@@ -71,25 +71,14 @@ class NoteFlow extends Component {
         this.setState({expand: false})
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.update(1)
         document.addEventListener('scroll', this.bottomEvent)
-    }
-
-    componentWillMount() {
-        this.unsubscribe = Store.subscribe(() => {
-            const save = Store.getState().refresh
-            if (save) {
-                this.setState({ notes: []})
-                this.update(1, true)
-            }
-        })
     }
 
     componentWillUnmount() {
         this.setState({ notes: [], page: 0 })
         document.removeEventListener('scroll', this.bottomEvent)
-        this.unsubscribe()
     }
 
     render() {
