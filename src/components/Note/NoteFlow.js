@@ -81,6 +81,10 @@ class NoteFlow extends Component {
         document.removeEventListener('scroll', this.bottomEvent)
     }
 
+    refresh = () => {
+        this.update(1, true)
+    }
+
     render() {
         const { notes, alert, alertContent, loading, expand, expandNote } = this.state
         const flow = notes.map((note, index) => (
@@ -95,7 +99,7 @@ class NoteFlow extends Component {
                     <Grid item xs={11} sm={8} md={5}>
                         <Grid container direction="column" spacing={16}>
                             <Grid item>
-                                <PostForm/>
+                                <PostForm onPost={this.refresh}/>
                             </Grid>
                             {flow}
                             <Grid item>
