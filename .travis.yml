@@ -10,13 +10,27 @@ branches:
 script:
   - yarn build
   - git clean -fd
-  - echo 'io.infnote.com' > ./build/CNAME
 
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep-history: false
-  local-dir: ./build/
-  on:
-    branch: master
+jobs:
+  include:
+    - stage: io.infnote.com
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep-history: false
+        local-dir: ./build/
+        fqdn: io.infnote.com
+        on:
+          branch: master
+    - stage: pku.infnote.com
+      deploy:
+        repo: Infnote/infnote_pku
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep-history: false
+        local-dir: ./build/
+        fqdn: pku.infnote.com
+        on:
+          branch: master
