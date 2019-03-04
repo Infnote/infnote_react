@@ -72,7 +72,7 @@ class NoteFlow extends Component {
     }
 
     componentDidMount() {
-        this.update(1)
+        this.update(1, true)
         document.addEventListener('scroll', this.bottomEvent)
     }
 
