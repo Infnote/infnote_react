@@ -3,7 +3,7 @@ import { CardHeader, Avatar, Grid, Dialog, DialogTitle, DialogContent, DialogCon
 import Markdown from 'react-markdown'
 import CloseIcon from '@material-ui/icons/Close'
 import { NoteCard, PostForm } from '.'
-import { NoteModel, Store } from 'models'
+import { NoteModel } from 'models'
 import __ from '../../utils/languages'
 import CodeRender from './CodeRender'
 
@@ -76,20 +76,13 @@ class NoteFlow extends Component {
         document.addEventListener('scroll', this.bottomEvent)
     }
 
-    componentWillMount() {
-        this.unsubscribe = Store.subscribe(() => {
-            const save = Store.getState().refresh
-            if (save) {
-                this.setState({ notes: []})
-                this.update(1, true)
-            }
-        })
-    }
-
     componentWillUnmount() {
         this.setState({ notes: [], page: 0 })
         document.removeEventListener('scroll', this.bottomEvent)
-        this.unsubscribe()
+    }
+
+    refresh = () => {
+        this.update(1, true)
     }
 
     render() {
@@ -106,7 +99,7 @@ class NoteFlow extends Component {
                     <Grid item xs={11} sm={8} md={5}>
                         <Grid container direction="column" spacing={16}>
                             <Grid item>
-                                <PostForm/>
+                                <PostForm onPost={this.refresh}/>
                             </Grid>
                             {flow}
                             <Grid item>

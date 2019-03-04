@@ -47,6 +47,7 @@ class PostForm extends Component {
         }
         PostModel.submit(null, content).then(() => {
             this.setState({ content: '', contentRemain: remainLimit.content })
+            this.props.onPost()
             Store.dispatch(refresh())
         }).catch( err => {
             this.setState({alert: true, alertContent: err.message})
