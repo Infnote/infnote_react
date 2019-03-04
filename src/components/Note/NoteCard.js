@@ -3,6 +3,7 @@ import Markdown from 'react-markdown'
 import { Card, CardHeader, CardContent, Typography, Avatar, Grid } from '@material-ui/core'
 import CodeRender from './CodeRender'
 import __ from '../../utils/languages'
+import ImgRender from './ImgRender'
 
 class Note extends Component {
     render() {
@@ -18,7 +19,13 @@ class Note extends Component {
                 subheader={time.toLocaleString()} />
                 <CardContent style={{paddingTop: 0}}>
                     <Typography component="div" style={{wordBreak: 'break-word'}}>
-                        <Markdown source={object.content + (object.truncated ? '...' : '')} renderers={{code: CodeRender}} />
+                        <Markdown 
+                            source={object.content + (object.truncated ? '...' : '')} 
+                            renderers={{
+                                code: CodeRender,
+                                image: ImgRender,
+                            }}
+                        />
                     </Typography>
                     <Grid container justify='flex-end'>
                         <Typography style={{color: 'gray'}}>
