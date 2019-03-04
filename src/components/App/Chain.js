@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 //import logo from './logo.svg'
-import './App.css'
-import {Blockchain, Key} from './blockchain'
-import {Service} from './network'
-import {log} from './utils'
+import '../../App.css'
+import {Blockchain, Key} from '../../blockchain'
+import BlockchainListView from '../View/BlockchainListView'
+import {Service} from '../../network'
+import {log} from '../../utils'
 
 class Chain extends Component {
 
@@ -37,6 +38,7 @@ class Chain extends Component {
                     <p>p2p testing</p>
                     <p>option + command + i to check local storage</p>
                 </div>
+                <BlockchainListView />
             </div>
         );
     }

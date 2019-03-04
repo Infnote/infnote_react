@@ -20,6 +20,15 @@ class Storage {
         let index = chainID
         return localStorage.setItem(index, height.toString())
     }
+
+    static getAllBlockchainIds() {
+        let keys = Object.keys(localStorage)
+        // look for genesis block, ie. key with the "{chainId+0}" pattern
+        let regex = /[a-zA-Z0-9]+(\+0){1}/gm
+
+        return keys.filter(key => regex.test(key))
+            .map(key => key.slice(0, key.length-2))
+    }
 }
 
 export default Storage
