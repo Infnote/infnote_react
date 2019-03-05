@@ -24,7 +24,9 @@ export class Languages {
             'anonymous.status': 'As Anonymous',
             'expand': 'Expand to Read All',
             'user.notfound': 'Cannot find user, please sign up first',
-            'private_key.important_hint': '⚠️IMPORTANT: Private key is only saved locally in your browser. We won\'t retrive your key in any form. Please save your key somewhere carefully, it cannot be restored if lost.'
+            'private_key.important_hint': '⚠️IMPORTANT: Private key is only saved locally in your browser. We won\'t retrive your key in any form. Please save your key somewhere carefully, it cannot be restored if lost.',
+            'post.limit_exceed': 'Content size exceed 1000 bytes limit.',
+            'post.empty': 'Cannot post an empty note.'
         },
         'zh-CN': {
             'apiserver': 'API 服务器',
@@ -50,7 +52,9 @@ export class Languages {
             'anonymous.status': '匿名状态',
             'expand': '阅读全文',
             'user.notfound': '用户未注册',
-            'private_key.important_hint': '⚠️重要：私钥将只会保存于本地浏览器中。本站不会以任何形式获取您的私钥，若不慎丢失将无法恢复，请妥善保管。'
+            'private_key.important_hint': '⚠️重要：私钥将只会保存于本地浏览器中。本站不会以任何形式获取您的私钥，若不慎丢失将无法恢复，请妥善保管。',
+            'post.limit_exceed': '超出 10000 字节内容限制',
+            'post.empty': '无法发送空内容'
         }
     }
 

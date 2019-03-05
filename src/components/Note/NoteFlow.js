@@ -20,18 +20,18 @@ class NoteFlow extends Component {
             dateSubmitted: 0
         },
     }
+    bottomEl = null
 
     update = (page, clear) => {
         if (this.state.loading === 3 && !clear) {
             return
         }
 
-        this.setState({loading: 1})
+        this.setState({loading: 1, page})
         NoteModel.fetch(page)
             .then(notes => {
                 this.setState({
                     notes: clear ? notes : [...this.state.notes, ...notes],
-                    page: page,
                     loading: 2
                 })
             })
@@ -51,7 +51,8 @@ class NoteFlow extends Component {
         if (!el) {
             return 
         }
-        if (el.getBoundingClientRect().bottom <= window.innerHeight) {
+        if (el.getBoundingClientRect().bottom <= window.innerHeight && this.bottomEl !== el) {
+            this.bottomEl = el
             this.update(this.state.page + 1)
         }
     }
@@ -72,12 +73,9 @@ class NoteFlow extends Component {
     }
 
     componentDidMount() {
-        this.update(1)
+        this.update(1, true)
         document.addEventListener('scroll', this.bottomEvent)
-    }
-
-    componentWillMount() {
-        this.unsubscribe = Store.subscribe(() => {
+        Store.subscribe(() => {
             const save = Store.getState().refresh
             if (save) {
                 this.setState({ notes: []})
@@ -89,7 +87,6 @@ class NoteFlow extends Component {
     componentWillUnmount() {
         this.setState({ notes: [], page: 0 })
         document.removeEventListener('scroll', this.bottomEvent)
-        this.unsubscribe()
     }
 
     render() {
@@ -106,7 +103,7 @@ class NoteFlow extends Component {
                     <Grid item xs={11} sm={8} md={5}>
                         <Grid container direction="column" spacing={16}>
                             <Grid item>
-                                <PostForm/>
+                                <PostForm />
                             </Grid>
                             {flow}
                             <Grid item>
