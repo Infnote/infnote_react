@@ -3,7 +3,7 @@ import { CardHeader, Avatar, Grid, Dialog, DialogTitle, DialogContent, DialogCon
 import Markdown from 'react-markdown'
 import CloseIcon from '@material-ui/icons/Close'
 import { NoteCard, PostForm } from '.'
-import { NoteModel } from 'models'
+import { NoteModel, Store } from 'models'
 import __ from '../../utils/languages'
 import CodeRender from './CodeRender'
 
@@ -20,18 +20,18 @@ class NoteFlow extends Component {
             dateSubmitted: 0
         },
     }
+    bottomEl = null
 
     update = (page, clear) => {
         if (this.state.loading === 3 && !clear) {
             return
         }
-
-        this.setState({loading: 1})
+        console.log(page)
+        this.setState({loading: 1, page})
         NoteModel.fetch(page)
             .then(notes => {
                 this.setState({
                     notes: clear ? notes : [...this.state.notes, ...notes],
-                    page: page,
                     loading: 2
                 })
             })
@@ -51,7 +51,8 @@ class NoteFlow extends Component {
         if (!el) {
             return 
         }
-        if (el.getBoundingClientRect().bottom <= window.innerHeight) {
+        if (el.getBoundingClientRect().bottom <= window.innerHeight && this.bottomEl !== el) {
+            this.bottomEl = el
             this.update(this.state.page + 1)
         }
     }
@@ -74,15 +75,18 @@ class NoteFlow extends Component {
     componentDidMount() {
         this.update(1, true)
         document.addEventListener('scroll', this.bottomEvent)
+        Store.subscribe(() => {
+            const save = Store.getState().refresh
+            if (save) {
+                this.setState({ notes: []})
+                this.update(1, true)
+            }
+        })
     }
 
     componentWillUnmount() {
         this.setState({ notes: [], page: 0 })
         document.removeEventListener('scroll', this.bottomEvent)
-    }
-
-    refresh = () => {
-        this.update(1, true)
     }
 
     render() {
@@ -99,7 +103,7 @@ class NoteFlow extends Component {
                     <Grid item xs={11} sm={8} md={5}>
                         <Grid container direction="column" spacing={16}>
                             <Grid item>
-                                <PostForm onPost={this.refresh}/>
+                                <PostForm />
                             </Grid>
                             {flow}
                             <Grid item>
