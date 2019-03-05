@@ -41,10 +41,16 @@ class PostForm extends Component {
     }
 
     post = () => {
-        const { content } = this.state
+        const content = this.state.content.trim()
         if (content.length > remainLimit.content) {
+            this.setState({alert: true, alertContent: __('post.limit_exceed')})
             return
         }
+        if (content.length <= 0) {
+            this.setState({alert: true, alertContent: __('post.empty')})
+            return
+        }
+        
         PostModel.submit(null, content).then(() => {
             this.setState({ content: '', contentRemain: remainLimit.content })
             Store.dispatch(refresh())
