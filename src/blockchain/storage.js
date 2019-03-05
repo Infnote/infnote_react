@@ -9,6 +9,28 @@ class Storage {
         return localStorage.getItem(index)
     }
 
+    static getNextBlock(height, chainID) {
+        if (height >= this.getChainCount(chainID)) return false;
+
+        return this.getBlock(height+1, chainID)
+    }
+
+    static getPreviousBlock(height, chainID) {
+        if (height === 0) return false;
+
+        return this.getBlock(height-1, chainID)
+    }
+
+    static getAllBlocks(chainID) {
+        let blocksCount = this.getChainCount(chainID)
+        let blocks = []
+        for (let i = 0; i < blocksCount; i++) {
+            blocks.push(this.getBlock(i, chainID))
+        }
+        return blocks
+    }
+
+    // TODO: this should be renamed to getBlocksCount
     static getChainCount(chainID) {
         let index = chainID
         if (localStorage.getItem(index) == null)
