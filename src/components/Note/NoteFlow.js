@@ -26,7 +26,7 @@ class NoteFlow extends Component {
         if (this.state.loading === 3 && !clear) {
             return
         }
-        console.log(page)
+
         this.setState({loading: 1, page})
         NoteModel.fetch(page)
             .then(notes => {
