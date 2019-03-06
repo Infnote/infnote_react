@@ -15,7 +15,7 @@ class BlockchainListView extends Component {
 
         return (
             <div>
-                <h2>This is a list view for blockchains</h2>
+                <h2>Blockchains</h2>
                 <div className="blockchainContainer">
                     {blockchains}
                 </div>

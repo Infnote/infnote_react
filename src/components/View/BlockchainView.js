@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Blockchain, Block, Storage } from '../../blockchain'
 import { BlockView } from '../Blockchain'
+import BlocksHeader from './BlocksHeader'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -25,7 +26,7 @@ class BlockchainView extends Component {
 
     handleChange = (panel) => (event, expanded) => {
         this.setState({
-          expanded: expanded ? panel : false,
+            expanded: expanded ? panel : false,
         });
       };
 
@@ -34,12 +35,15 @@ class BlockchainView extends Component {
         let blocks = this.blocksInfo.map((blockInfo, index) => <BlockView key={index} block={blockInfo} />)
 
         return (
-            <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+            <ExpansionPanel expanded={expanded === this.props.chainID} onChange={this.handleChange(this.props.chainID)}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <h3>This is a blockchain with id {this.chain.id} has {this.chain.count} blocks</h3>
+                    <h3>Id {this.chain.id}: {this.chain.count} blocks</h3>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <Grid container spacing={24}>{blocks}</Grid>
+                    <Grid container spacing={24}>
+                        <BlocksHeader/>
+                        {blocks}
+                    </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         )
