@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Block } from '../../blockchain';
+import { Block } from '../../blockchain'
+import Grid from '@material-ui/core/Grid'
 
 class BlockView extends Component {
     // this.blockHash = ''
@@ -8,6 +9,8 @@ class BlockView extends Component {
     //     this.signature = ''
     //     this.height = 0
     //     this.payload = ''
+
+    // could also display height/block #, time stamp, payload size
     constructor(props) {
         super(props)
         this.block = Block.fromJSON(this.props.block)
@@ -17,11 +20,12 @@ class BlockView extends Component {
         let blockClass = "block" + this.block.isGenesis ? "genesis" : ""
 
         return (
-            <div className={blockClass}>This is a {this.block.isGenesis ? "Genesis" : ""} block
-                prevHash {this.block.prevHash}
-                time {this.block.time}
-                signature {this.block.signature}
-            </div>
+            <React.Fragment>
+                <Grid item xs={12}>This is a {this.block.isGenesis ? "Genesis" : ""} block</Grid>
+                <Grid item xs={4}>{this.block.prevHash}</Grid>
+                <Grid item xs={1}>{this.block.time}</Grid>
+                <Grid item xs={7}>{this.block.signature}</Grid>
+            </React.Fragment>
         )
     }
 }
