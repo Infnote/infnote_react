@@ -14,7 +14,8 @@ class BlockchainListView extends Component {
         let blockchains = this.keys.map(id => <BlockchainView key={id} chainID={id} />)
 
         return (
-            <div>This is a list view for blockchains
+            <div>
+                <h2>Blockchains</h2>
                 <div className="blockchainContainer">
                     {blockchains}
                 </div>

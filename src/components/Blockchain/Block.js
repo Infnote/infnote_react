@@ -16,15 +16,22 @@ class BlockView extends Component {
         this.block = Block.fromJSON(this.props.block)
     }
 
+    UnixToUTC(seconds) {
+        return new Date(seconds * 1000).toISOString()
+    }
+
+    payloadInBytes() {
+        return Buffer.byteLength(this.block.payload)
+    }
+
     render() {
-        let blockClass = "block" + this.block.isGenesis ? "genesis" : ""
 
         return (
             <React.Fragment>
-                <Grid item xs={12}>This is a {this.block.isGenesis ? "Genesis" : ""} block</Grid>
-                <Grid item xs={4}>{this.block.prevHash}</Grid>
-                <Grid item xs={1}>{this.block.time}</Grid>
-                <Grid item xs={7}>{this.block.signature}</Grid>
+                <Grid item xs={1}>{this.block.height}</Grid>
+                <Grid item xs={2}>{this.UnixToUTC(this.block.time)}</Grid>
+                <Grid item xs={1}>{this.payloadInBytes()}</Grid>
+                <Grid item xs={8}>{this.block.signature}</Grid>
             </React.Fragment>
         )
     }

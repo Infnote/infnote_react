@@ -6,8 +6,11 @@ const SETTINGS = {
     chains: [
         // "19AZfrNgBh5sxo5eVytX3K3yQvucS5vc45", // for testing
         // "15mhzB7c6rbDrSPimePU9zWMo3US9sAZzL" // for testing
-        "1BWJrzQBjWJ1JTBRXYrWRAU9dYdJJ2GXDM", 
-        "1PdJ5CLZfqUKy39RBfSPcwGnXvbdFgBuEW"
+        // "1BWJrzQBjWJ1JTBRXYrWRAU9dYdJJ2GXDM",
+        "1PdJ5CLZfqUKy39RBfSPcwGnXvbdFgBuEW",
+        "123XZfk9FWKyQoBCgBEiwDA4q1o9RdUSyB",
+        "1rmj3NjgDbCqRG7P2Be73xxwXzaW63ycm"
+
     ],
     peers: [
         //"ws://10.89.58.116:32767" //, "ws://10.89.58.116:32769"
