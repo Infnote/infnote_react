@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { Block } from '../../blockchain'
 import Grid from '@material-ui/core/Grid'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { BlocksHeader } from 'components/View'
+// import { Link } from 'react-router-dom'
 
 class BlockView extends Component {
     // this.blockHash = ''
@@ -14,6 +20,9 @@ class BlockView extends Component {
     constructor(props) {
         super(props)
         this.block = Block.fromJSON(this.props.block)
+        this.state = {
+            expanded: null
+        }
     }
 
     UnixToUTC(seconds) {
@@ -24,17 +33,32 @@ class BlockView extends Component {
         return Buffer.byteLength(this.block.payload)
     }
 
+    handleChange = (panel) => (event, expanded) => {
+        this.setState({
+            expanded: expanded ? panel : false,
+        });
+      };
+
     render() {
+        let {expanded} = this.state
 
         return (
-            <React.Fragment>
-                <Grid item xs={1}>{this.block.height}</Grid>
-                <Grid item xs={2}>{this.UnixToUTC(this.block.time)}</Grid>
-                <Grid item xs={1}>{this.payloadInBytes()}</Grid>
-                <Grid item xs={8}>{this.block.signature}</Grid>
-            </React.Fragment>
+            <ExpansionPanel expanded={expanded === this.block.blockHash} onChange={this.handleChange(this.block.blockHash)}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <h3>{this.block.blockHash}</h3>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <Grid container spacing={24}>
+                        <BlocksHeader/>
+                        <Grid item xs={1}>{this.block.height}</Grid>
+                        <Grid item xs={2}>{this.UnixToUTC(this.block.time)}</Grid>
+                        <Grid item xs={1}>{this.payloadInBytes()}</Grid>
+                        <Grid item xs={8}>{this.block.signature}</Grid>
+                    </Grid>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
         )
     }
 }
 
-export default BlockView;
+export default BlockView
