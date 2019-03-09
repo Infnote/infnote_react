@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Storage from '../../blockchain/storage'
 import { BlockchainCard } from 'components/Blockchain'
+import { Service } from 'network'
 import { Blockchain } from '../../blockchain'
 import { BlockchainView, AddNewBlocks } from 'components/View'
 
@@ -19,6 +20,9 @@ class BlockchainListView extends Component {
         this.setState({
             keys: Storage.getAllBlockchainIds()
         })
+
+        // subscribe to broadcast messages
+        this.service = new Service()
     }
 
     render() {

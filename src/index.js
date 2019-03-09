@@ -11,6 +11,16 @@ import {Peers} from './network'
 Storage.migrate()
 Peers.migrate()
 
+// const AppLayoutRoute = ({component: Component, ...rest}) => {
+//     return (
+//         <Route {...rest} render={matchProps => (
+//             <AppLayout>
+//                 <Component {...matchProps} />
+//             </AppLayout>
+//         )} />
+//     )
+// };
+
 let routes = (
     <BrowserRouter>
         <div>

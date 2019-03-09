@@ -6,6 +6,10 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { BlocksHeader } from 'components/View'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 // import { Link } from 'react-router-dom'
 
 class BlockView extends Component {
@@ -35,12 +39,22 @@ class BlockView extends Component {
 
     handleChange = (panel) => (event, expanded) => {
         this.setState({
-            expanded: expanded ? panel : false,
-        });
-      };
+            expanded: expanded ? panel : false
+        })
+    }
+
+    getPayloadJSON() {
+        return this.block.decodePayload()
+    }
 
     render() {
         let {expanded} = this.state
+        let payload = this.getPayloadJSON()
+        let blockDetail = Object.keys(payload).map((key, i) => (
+            <ListItem key={i}>
+                <ListItemText primary={key} secondary={payload[key]} />
+            </ListItem>
+        ))
 
         return (
             <ExpansionPanel expanded={expanded === this.block.blockHash} onChange={this.handleChange(this.block.blockHash)}>
@@ -54,6 +68,9 @@ class BlockView extends Component {
                         <Grid item xs={2}>{this.UnixToUTC(this.block.time)}</Grid>
                         <Grid item xs={1}>{this.payloadInBytes()}</Grid>
                         <Grid item xs={8}>{this.block.signature}</Grid>
+                        <List>
+                            {blockDetail}
+                        </List>
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

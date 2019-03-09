@@ -60,6 +60,10 @@ class Block {
         return Key.recoverAddress(this.signature, this.dataForHashing)
     }
 
+    decodePayload() {
+        return JSON.parse(bs58.decode(this.payload).toString('utf-8'))
+    }
+
     isValid() {
         /*
         //Debug: two confitions
