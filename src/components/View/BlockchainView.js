@@ -16,7 +16,7 @@ class BlockchainView extends Component {
     }
 
     render() {
-        const { blocksInfo } = this.state;
+        const { blocksInfo } = this.state
         let blocks = blocksInfo.map((blockInfo, index) => <BlockView key={index} block={blockInfo} />)
 
         return (

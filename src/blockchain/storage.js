@@ -21,11 +21,14 @@ class Storage {
         return this.getBlock(height-1, chainID)
     }
 
-    static getAllBlocks(chainID) {
+    static getAllBlocks(chainID, order="DESC") {
         let blocksCount = this.getChainCount(chainID)
         let blocks = []
         for (let i = 0; i < blocksCount; i++) {
-            blocks.push(this.getBlock(i, chainID))
+            blocks.unshift(this.getBlock(i, chainID))
+        }
+        if (order === "ASC") {
+            blocks.sort()
         }
         return blocks
     }
