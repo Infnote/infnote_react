@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { Blockchain, Block, Storage } from '../../blockchain'
-import { BlockView } from '../Blockchain'
 import Grid from '@material-ui/core/Grid'
 
 class BlocksHeader extends Component {
