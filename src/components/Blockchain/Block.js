@@ -23,7 +23,7 @@ class BlockView extends Component {
     // could also display height/block #, time stamp, payload size
     constructor(props) {
         super(props)
-        this.block = Block.fromJSON(this.props.block)
+        this.block = this.props.block
         this.state = {
             expanded: null
         }

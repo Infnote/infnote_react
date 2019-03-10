@@ -5,6 +5,7 @@ import Behavior from './behavior'
 import Error from './errors'
 import url from 'url'
 import UAParser from 'ua-parser-js'
+import {eventEmitter} from 'utils'
 
 var messageIDs = {}
 
@@ -308,11 +309,13 @@ class BroadcastBlock extends Behavior {
 
     react() {
         var behaviors = []
-        let blockchain = new Blockchain(this.blockObject.chainID)
+        const chainId = this.blockObject.chainID
+        let blockchain = new Blockchain(chainId)
         var result = blockchain.saveBlock(this.blockObject)
         if ((result === true) && (messageIDs[this.messageID] !== true) && (BroadcastService.shared().handler !== null)) {
             BroadcastService.shared().handler(this)
             messageIDs[this.messageID] = true
+            eventEmitter.emit('NEW_BLOCK', chainId)
         }
         return behaviors
     }
