@@ -63,7 +63,8 @@ class Block {
     }
 
     decodePayload() {
-        return JSON.parse(bs58.decode(this.payload).toString('utf-8'))
+        let payload = Buffer.from(this.payload, 'base64').toString('utf-8')
+        return JSON.parse(payload)
     }
 
     isValid() {
